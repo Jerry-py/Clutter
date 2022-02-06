@@ -1,11 +1,12 @@
-import discord
-import traceback    
-import requests
 import sys
+
+import discord
+import traceback
+from discord import Webhook, RequestsWebhookAdapter
+from discord.ext import commands
+
 import config
 from utils import embed, color
-from discord.ext import commands
-from discord import Webhook, RequestsWebhookAdapter
 
 
 class ErrorHandler(commands.Cog):
@@ -27,11 +28,13 @@ class ErrorHandler(commands.Cog):
             return
         elif isinstance(error, commands.NoPrivateMessage):
             try:
-                await ctx.reply(embed=embed.error(ctx.guild.id, f'You cannot use this command in DMs'), mention_author=False)
+                await ctx.reply(embed=embed.error(ctx.guild.id, f'You cannot use this command in DMs'),
+                                mention_author=False)
             except (discord.HTTPException, discord.Forbidden):
                 pass
         elif isinstance(error, commands.MissingRequiredArgument):
-            await ctx.reply(embed=embed.error(ctx.guild.id, "Please give all the required arguments"), mention_author=False)
+            await ctx.reply(embed=embed.error(ctx.guild.id, "Please give all the required arguments"),
+                            mention_author=False)
         elif isinstance(error, commands.MissingAnyRole):
             await ctx.reply(embed=embed.error(ctx.guild.id, "You cannot use this command"), mention_author=False)
         else:

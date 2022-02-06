@@ -1,0 +1,26 @@
+{
+  "help": {
+    "brief": "Sends info about the commands of the bot",
+    "desc": "`help [command]`\n\nSends info about the commands of the bot\n\n`<param>` - Mandatory\n`[param]` - Optional\n\n[View the bot's source code](https://github.com/Clutter-Development/Clutter)"
+  },
+  "reload": {
+    "brief": "Reloads a module",
+    "desc": "`reload <module>`\n\nReloads a module\nIf it fails, it will spit the error as a .txt file\n\n**Permissions needed:** `bot_owner`\n**Alias:** `rl`"
+  },
+  "load": {
+    "brief": "Loads a module",
+    "desc": "`load <module>`\n\nLoads a module\nIf it fails, it will spit the error as a .txt file\n\n**Permissions needed:** `bot_owner`\n**Alias:** `l`"
+  },
+  "unload": {
+    "brief": "Unloads a module",
+    "desc": "`unload <module>`\n\nUnloads a module\nIf it fails, it will spit the error as a .txt file\n\n**Permissions needed:** `bot_owner`\n**Alias:** `ul`"
+  },
+  "ping": {
+    "brief": "Get the bot'ss ping statistics",
+    "desc": "`ping`\n\nGets the bot's ping statistics\n**API latency:** The communication between the bot and the Discord API\n**Bot latency:** Internal latency (proccessing)\n\n**Aliases:** `p`, `latency`"
+  },
+  "invite": {
+    "brief": "Get the invite link for the bot and the bot's support server",
+    "desc": "`invite`\n\nGet the invite link for the bot and the bot's support server"
+  }
+}

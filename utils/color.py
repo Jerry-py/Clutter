@@ -1,5 +1,5 @@
-from typing import Union, Any, Callable
 import sys
+from typing import Union, Any, Callable
 
 
 def esc(*codes: Union[int, str]) -> str:

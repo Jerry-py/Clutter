@@ -1,5 +1,6 @@
-from utils import mongo as db
 import discord
+
+from utils import mongo as db
 
 
 def success(guild_id: int, title: str, description: str = ""):
@@ -22,11 +23,13 @@ def warning(guild_id: int, title: str, description: str = ""):
         title=f"{emoji} {title}", description=description, color=color)
     return _embed
 
+
 def info(guild_id: int, title: str, description: str = ""):
     emoji, color = db.get(f"{guild_id}.emojis.info", ""), db.get(f"{guild_id}.colors.warning", discord.Embed.Empty)
     _embed = discord.Embed(
         title=f"{emoji} {title}", description=description, color=color)
     return _embed
+
 
 def main(guild_id: int, title: str, description: str = ""):
     color = db.get(f"{guild_id}.colors.main", discord.Embed.Empty)

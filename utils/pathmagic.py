@@ -10,6 +10,7 @@ def set(main_dict: dict, path: Union[str, List[str]], *, dump: dict) -> dict:
     Returns:
         dict: The modified dict.
     """
+
     def magic(alt_dict: dict, key: str) -> dict:
         """Validates the key(dict) in the alt_dict.
         Args:

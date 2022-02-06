@@ -1,7 +1,9 @@
-import pymongo
-from utils import pathmagic
-import config
 from typing import Any
+
+import pymongo
+
+import config
+from utils import pathmagic
 
 client = pymongo.MongoClient(config.mongo_url)
 db = client.MongoDB
@@ -42,7 +44,8 @@ def set(path: str, value) -> None:
         return section.insert_one({"_id": _id, var_name: pathmagic.set({}, path, dump={key: value})})
     else:
         path.insert(0, var_name)
-        return section.update_one({"_id": _id}, {"$set": {var_name: pathmagic.set(result[var_name], path, dump={key: value})}})
+        return section.update_one({"_id": _id},
+                                  {"$set": {var_name: pathmagic.set(result[var_name], path, dump={key: value})}})
 
 
 def rem(path: str, value) -> None:

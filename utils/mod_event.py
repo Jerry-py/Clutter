@@ -8,13 +8,12 @@ event = ModEvent(moderator=ctx.author, member=member, action="ban", guild_id=ctx
 self.bot.dispatch("modlog", event)
 """
 import discord
-from discord.utils import escape_markdown
-from utils import embed
 
 
 class ModEvent:
 
-    def __init__(self, *, moderator: discord.Member, member: discord.Member, action: str, guild_id: int, reason: str = "", ends_at: int = 0, automod: bool = False):
+    def __init__(self, *, moderator: discord.Member, member: discord.Member, action: str, guild_id: int,
+                 reason: str = "", ends_at: int = 0, automod: bool = False):
         self.moderator = moderator
         self.member = member
         self.action = action
