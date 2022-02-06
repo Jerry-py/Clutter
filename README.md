@@ -2,4 +2,4 @@
 
 Moderation &amp; Utility Discord Bot
 
-test
+>help
