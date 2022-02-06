@@ -27,3 +27,9 @@ def info(guild_id: int, title: str, description: str = ""):
     _embed = discord.Embed(
         title=f"{emoji} {title}", description=description, color=color)
     return _embed
+
+def main(guild_id: int, title: str, description: str = ""):
+    color = db.get(f"{guild_id}.colors.main", discord.Embed.Empty)
+    _embed = discord.Embed(
+        title=title, description=description, color=color)
+    return _embed

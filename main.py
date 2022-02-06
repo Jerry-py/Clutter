@@ -36,14 +36,9 @@ async def on_ready():
         print(f"   │{guild.name}")
 
 
-@bot.group()
-async def module(ctx):
-    if ctx.invoked_subcommand is None:
-        pass
-
-
-@module.command(description="Reload a module")
+@bot.command(usage="reload <module>", aliases=["rl"], description="Reloads a module", help="Reloads a module.\nIf it errors while reloading the module, it will send the error as a txt file attachment.\nWill just load the module if it isn't loaded.")
 @commands.is_owner()
+@commands.guild_only()
 async def reload(ctx, module: str):
     await ctx.channel.trigger_typing()
     for file_path in Path("./modules").glob("**/*.py"):
@@ -71,8 +66,9 @@ async def reload(ctx, module: str):
     await ctx.reply(embed=embed.error(ctx.guild.id, f"There is no such module named {module}"), mention_author=False)
 
 
-@module.command(description="Load a module")
+@bot.command(usage="load <module>", aliases=["l"], description="Loads a module", help="Loads a module.\nIf it errors while loading the module, it will send the error as a txt file attachment.")
 @commands.is_owner()
+@commands.guild_only()
 async def load(ctx, module: str):
     await ctx.channel.trigger_typing()
     for file_path in Path("./modules").glob("**/*.py"):
@@ -94,8 +90,9 @@ async def load(ctx, module: str):
     await ctx.reply(embed=embed.error(ctx.guild.id, f"There is no such module named {module}"), mention_author=False)
 
 
-@module.command(description="Unload a module")
+@bot.command(usage="unload <module>", aliases=["ul"], description="Unloads a module", help="Unloads a module.\nIf it errors while unloading the module, it will send the error as a txt file attachment.")
 @commands.is_owner()
+@commands.guild_only()
 async def unload(ctx, module: str):
     await ctx.channel.trigger_typing()
     for file_path in Path("./modules").glob("**/*.py"):
