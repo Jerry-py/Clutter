@@ -53,6 +53,14 @@ async def reload(ctx, module: str):
             continue
         try:
             bot.reload_extension(file_path)
+        except commands.ExtensionNotLoaded(name):
+            try:
+                bot.load_extension(file_path)
+            except Exception:
+                with open("./errorlogs/error.txt", mode="w") as file:
+                    file.write(traceback.format_exc())
+                with open("./errorlogs/error.txt", mode="rb") as file:
+                    return await ctx.reply(embed=embed.error(ctx.guild.id, f"Couldn't reload {module}"), file=discord.File(file), mention_author=False)
         except Exception:
             with open("./errorlogs/error.txt", mode="w") as file:
                 file.write(traceback.format_exc())
@@ -74,6 +82,8 @@ async def load(ctx, module: str):
             continue
         try:
             bot.load_extension(file_path)
+        except commands.ExtensionAlreadyLoaded:
+            return await ctx.reply(embed=embed.error(ctx.guild.id, f"The module {module} is already loaded"), mention_author=False)
         except Exception:
             with open("./errorlogs/error.txt", mode="w") as file:
                 file.write(traceback.format_exc())
@@ -95,6 +105,8 @@ async def unload(ctx, module: str):
             continue
         try:
             bot.unload_extension(file_path)
+        except commands.ExtensionNotLoaded:
+            return await ctx.reply(embed=embed.error(ctx.guild.id, f"The module {module} is already unloaded"), mention_author=False)
         except Exception:
             with open("./errorlogs/error.txt", mode="w") as file:
                 file.write(traceback.format_exc())
