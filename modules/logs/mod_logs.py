@@ -11,6 +11,10 @@ class ModLogs(commands.Cog):
 
     @commands.Cog.listener
     async def on_modlog(self, event: ModEvent):
+        channel = await self.bot.fetch_channel(db.get(f"{event.guild_id}.channels.mod_log"), 0)
+        if channel == 0:
+            return
+
         actions = {
             "ban": "User banned",
             "unban": "User unbanned",
@@ -31,10 +35,7 @@ class ModLogs(commands.Cog):
         if event.reason != "":
             _embed.add_field(title="Reason", description=event.reason)
 
-        channel = await self.bot.fetch_channel(mongo.get(f"{event.guild_id}.channels.mod_log"), 0)
-
-        if channel != 0:
-            await channel.send(embed=embed)
+        await channel.send(embed=embed)
 
 def setup(bot):
     bot.add_cog(ModLogs(bot))
