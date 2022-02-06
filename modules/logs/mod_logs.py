@@ -1,5 +1,6 @@
 import discord
 import config
+from discord.ext import commands
 from utils import embed, mongo as db
 from utils.mod_event import ModEvent
 
@@ -18,7 +19,7 @@ class ModLogs(commands.Cog):
             "unmute": "User unmuted",
             "moderate": "User's nickname moderated"
         }
-        _embed = embed.warning(actions.get(
+        _embed = embed.warning(event.guild_id, actions.get(
             event.action, f"Something broke while trying to get the action ”{event.action}” from the list"))
         _embed.add_field(title="Moderator", description=f"**Mention:** {event.moderator.mention}\n**Tag:** {escape_markdown(event.moderator)}\n**ID:** {event.moderator.id}")
         _embed.add_field(title="Member", description=f"**Mention:** {event.member.mention}\n**Tag:** {escape_markdown(event.member)}\n**ID:** {event.member.id}")

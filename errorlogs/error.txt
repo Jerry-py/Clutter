@@ -1,1 +1,9 @@
-errors will be written here.
+Error Type: <class 'ZeroDivisionError'>
+Error: division by zero
+
+Traceback (most recent call last):
+  File "/home/asus/.local/lib/python3.10/site-packages/discord/ext/commands/core.py", line 85, in wrapped
+    ret = await coro(*args, **kwargs)
+  File "/home/asus/APR/Clutter/main.py", line 69, in load
+    aa = 0/0
+ZeroDivisionError: division by zero

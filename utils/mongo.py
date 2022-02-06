@@ -1,5 +1,5 @@
 import pymongo
-import pathmagic
+from utils import pathmagic
 import config
 from typing import Any
 

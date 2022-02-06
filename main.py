@@ -57,10 +57,10 @@ async def reload(ctx, module: str):
             with open("./errorlogs/error.txt", mode="w") as file:
                 file.write(traceback.format_exc())
             with open("./errorlogs/error.txt", mode="rb") as file:
-                return await ctx.reply(embed=embed.error(f"Couldn't reload {module}"), file=discord.File(file), mention_author=False)
+                return await ctx.reply(embed=embed.error(ctx.guild.id, f"Couldn't reload {module}"), file=discord.File(file), mention_author=False)
         else:
-            return await ctx.reply(embed=embed.success(f"Successfully reloaded {module}"), mention_author=False)
-    await ctx.reply(embed=embed.error(f"There is no such module named {module}"), mention_author=False)
+            return await ctx.reply(embed=embed.success(ctx.guild.id, f"Successfully reloaded {module}"), mention_author=False)
+    await ctx.reply(embed=embed.error(ctx.guild.id, f"There is no such module named {module}"), mention_author=False)
 
 
 @module.command(description="Load a module")
@@ -78,10 +78,10 @@ async def load(ctx, module: str):
             with open("./errorlogs/error.txt", mode="w") as file:
                 file.write(traceback.format_exc())
             with open("./errorlogs/error.txt", mode="rb") as file:
-                return await ctx.reply(embed=embed.error(f"Couldn't load {module}"), file=discord.File(file), mention_author=False)
+                return await ctx.reply(embed=embed.error(ctx.guild.id, f"Couldn't load {module}"), file=discord.File(file), mention_author=False)
         else:
-            return await ctx.reply(embed=embed.success(f"Successfully loaded {module}"), mention_author=False)
-    await ctx.reply(embed=embed.error(f"There is no such module named {module}"), mention_author=False)
+            return await ctx.reply(embed=embed.success(ctx.guild.id, f"Successfully loaded {module}"), mention_author=False)
+    await ctx.reply(embed=embed.error(ctx.guild.id, f"There is no such module named {module}"), mention_author=False)
 
 
 @module.command(description="Unload a module")
@@ -99,9 +99,9 @@ async def unload(ctx, module: str):
             with open("./errorlogs/error.txt", mode="w") as file:
                 file.write(traceback.format_exc())
             with open("./errorlogs/error.txt", mode="rb") as file:
-                return await ctx.reply(embed=embed.error(f"Couldn't unload {module}"), file=discord.File(file), mention_author=False)
+                return await ctx.reply(embed=embed.error(ctx.guild.id, f"Couldn't unload {module}"), file=discord.File(file), mention_author=False)
         else:
-            return await ctx.reply(embed=embed.success(f"Successfully unloaded {module}"), mention_author=False)
-    await ctx.reply(embed=embed.error(f"There is no such module named {module}"), mention_author=False)
+            return await ctx.reply(embed=embed.success(ctx.guild.id, f"Successfully unloaded {module}"), mention_author=False)
+    await ctx.reply(embed=embed.error(ctx.guild.id, f"There is no such module named {module}"), mention_author=False)
 
 bot.run(config.token)

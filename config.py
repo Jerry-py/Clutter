@@ -16,6 +16,10 @@ class emojis:
     warning = "<:warning:889206830637666334>"
 
     info = "<:info:889206906588106824>"""
-token = ""
-error_webhook = ""
-mongo_url = ""
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+token = os.getenv("token")
+error_webhook = os.getenv("error_webhook")
+mongo_url = os.getenv("mongo_url")
