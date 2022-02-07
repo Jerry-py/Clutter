@@ -3,104 +3,73 @@ from typing import Any
 import pymongo
 
 import config
-from utils import pathmagic
+from utils import dictception as di
 
-client = pymongo.MongoClient(config.mongo_url)
-db = client.MongoDB
+_client = pymongo.MongoClient(config.mongo_url)
+_db = _client["MongoDB"]
 
 
-def set(path: str, value) -> None:
-    path = path.split(".")
-    while "" in path:
-        path.remove("")
+def set(path: str, value: Any) -> None:
+    path = [_ for _ in path.split(".") if _ != ""]
 
-    section = db[path.pop(0)]  # set( "sectionName" )
+    collection = _db[path.pop(0)]  # set( "collectionName" )
     if path == []:
-        result = section.find_one({"_id": "_default"})
+        result = collection.find_one({"_id": "_default"}, {"_id" : 1})
         if result is None:
-            return section.insert_one({"_id": "_default", "_default": value})
-        else:
-            return section.update_one({"_id": "_default"}, {"$set": {"_default": value}})
+            return collection.insert_one({"_id": "_default", "_default": value})
+        return collection.update_one({"_id": "_default"}, {"$set": {"_default": value}})
 
-    _id = path.pop(0)  # set( "sectionName.cardID" )
+    _id = path.pop(0)  # set( "collectionName.cardID" )
     if path == []:
-        result = section.find_one({"_id": _id})
+        result = collection.find_one({"_id": _id}, {"_id" : 1})
         if result is None:
-            return section.insert_one({"_id": _id, "_default": value})
-        else:
-            return section.update_one({"_id": _id}, {"$set": {"_default": value}})
+            return collection.insert_one({"_id": _id, "_default": value})
+        return collection.update_one({"_id": _id}, {"$set": {"_default": value}})
 
-    var_name = path.pop(0)  # set( "sectionName.cardID.varName" )
-    if path == []:
-        result = section.find_one({"_id": _id})
-        if result is None:
-            return section.insert_one({"_id": _id, var_name: value})
-        else:
-            return section.update_one({"_id": _id}, {"$set": {var_name: value}})
-
-    key = path.pop(-1)  # set( "sectionName.cardID.varName.PMobject" )
-    result = section.find_one({"_id": _id}, {var_name: 1})
+    key = path.pop(0)  # set( "collectionName.cardID.DIpath" )
+    result = collection.find_one({"_id": _id}, {"_id" : 1})
     if result is None:
-        return section.insert_one({"_id": _id, var_name: pathmagic.set({}, path, dump={key: value})})
-    else:
-        path.insert(0, var_name)
-        return section.update_one({"_id": _id},
-                                  {"$set": {var_name: pathmagic.set(result[var_name], path, dump={key: value})}})
+        return collection.insert_one({"_id": _id, key: di.assemble(path, value)})  # is there a better way for this?
+    path.insert(0, key)
+    return collection.update_one({"_id": _id}, {"$set": {".".join(path): value}})
 
 
 def rem(path: str, value) -> None:
-    path, i = path.split("."), 0
-    while "" in path:
-        path.remove("")
+    path = [_ for _ in path.split(".") if _ != ""]
 
-    section = db[path.pop(0)]  # rem( "sectionName" )
+    collection = _db[path.pop(0)]  # rem( "collectionName" )
     if path == []:
-        if section in db.list_collection_names():
-            return section.drop()
+        return collection.drop()
 
-    _id = path.pop(0)  # rem( "sectionName.cardID" )
+    _id = path.pop(0)  # rem( "collectionName.cardID" )
     if path == []:
-        result = section.find_one({"_id": _id})
-        if result is not None:
-            return section.delete_one({"_id": _id})
+        return collection.delete_one({"_id": _id})
 
-    var_name = path.pop(0)  # rem( "sectionName.cardID.varName" )
+    elif len(path) == 1:  # rem( "collectionName.cardID.varName")
+        key = path.pop(0)
+        return collection.update_one({"_id": _id}, {"$unset": {key: ""}})
+    
+    return collection.update_one({"_id": _id}, {"$unset": {".".join(path)}})
+
+
+def get(path: str, default=None) -> Any:
+    path = [_ for _ in path.split(".") if _ != ""]
+
+    collection = _db[path.pop(0)]  # set( "collectionName" )
     if path == []:
-        result = section.find_one({"_id": _id})
-        if result is not None:
-            section.update_one({"_id": _id}, {"$unset": {var_name: ""}})
-
-    # TODO add PM rem
-
-
-def get(path: str = "", default=None) -> Any:
-    path = path.split(".")
-    while "" in path:
-        path.remove("")
-
-    section = db[path.pop(0)]  # set( "sectionName" )
-    if path == []:
-        result = section.find_one({"_id": "_default"})
+        result = collection.find_one({"_id": "_default"}, {"_id": 0, "_default": 1})
         if result is not None:
             return result.get("_default", default)
         return default
 
-    _id = path.pop(0)  # set( "sectionName.cardID" )
+    _id = path.pop(0)  # set( "collectionName.cardID" )
     if path == []:
-        result = section.find_one({"_id": _id})
+        result = collection.find_one({"_id": _id}, {"_id": 0, "_default": 1})
         if result is not None:
             return result.get("_default", default)
         return default
 
-    var_name = path.pop(0)  # set( "sectionName.cardID.varName" )
-    if path == []:
-        result = section.find_one({"_id": _id})
-        if result is not None:
-            return result.get(var_name, default)
-        return default
-
-    key = path.pop(-1)  # set( "sectionName.cardID.varName.PMobject" )
-    result = section.find_one({"_id": _id}, {var_name: 1})
-    if result is not None:
-        path.insert(0, var_name)
-        return pathmagic.get(result, path, key=key, default=default)
+    result = collection.find_one({"_id": _id}, {"_id": 0, ".".join(path): 1})  # set( "collectionName.cardID.DIpath" )
+    if result is not None or result != {}:
+        return di.find(result, path)
+    return default
