@@ -13,6 +13,7 @@ class Ping(commands.Cog):
     @commands.command(aliases=["p", "latency"])
     @commands.guild_only()
     async def ping(self, ctx):
+        await ctx.channel.trigger_typing()
         before = time.monotonic()
         message = await ctx.reply("** **", mention_author=False)
         ping = (time.monotonic() - before) * 1000
