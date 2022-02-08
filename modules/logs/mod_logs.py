@@ -36,7 +36,7 @@ class ModLogs(commands.Cog):
         else:
             ends_at = ""
         _embed.add_field(
-            title="Action", description=f"**Type:** {self.actions[event.action].capitalize()}\n{ends_at}")
+            title="Action", description=f"**Type:** {event.action.capitalize()}\n{ends_at}")
         if event.reason != "":
             _embed.add_field(title="Reason", description=event.reason)
 
