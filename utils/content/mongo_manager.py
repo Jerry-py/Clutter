@@ -76,7 +76,6 @@ class MongoManager:
         if not path:  # rem( "collectionName.cardID" )
             return collection.delete_one({"_id": _id})
 
-
         elif len(path) == 1:
             key = path.pop(0)  # rem( "collectionName.cardID.varName" )
             return collection.update_one({"_id": _id}, {"$unset": {key: ""}})
