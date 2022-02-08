@@ -1,7 +1,7 @@
+import traceback
 from pathlib import Path
 
 import discord
-import traceback
 from discord.ext import commands
 
 import config
@@ -50,7 +50,7 @@ async def reload(ctx, module: str):
             continue
         try:
             bot.reload_extension(file_path)
-        except commands.ExtensionNotLoaded(name):
+        except commands.ExtensionNotLoaded:
             try:
                 bot.load_extension(file_path)
             except Exception:

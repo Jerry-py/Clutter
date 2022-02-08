@@ -1,7 +1,7 @@
 import sys
+import traceback
 
 import discord
-import traceback
 from discord import Webhook, RequestsWebhookAdapter
 from discord.ext import commands
 

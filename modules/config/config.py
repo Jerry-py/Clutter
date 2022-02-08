@@ -1,8 +1,6 @@
 import discord
 from discord.ext import commands
 
-from utils import embed
-
 
 class Ping(commands.Cog):
 
@@ -16,7 +14,7 @@ class Ping(commands.Cog):
     @config.command()
     @commands.guild_only()
     async def channels(self, ctx, role: discord.Member):
-        pass # TODO
+        pass  # TODO
 
 
 def setup(bot):
