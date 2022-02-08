@@ -43,16 +43,16 @@ async def on_ready():
 @commands.guild_only()
 async def reload(ctx, module: str):
     await ctx.channel.trigger_typing()
-    for file_path in Path("./modules").glob("**/*.py"):
-        file_path = str(file_path).replace("/", ".")[:-3]
-        file_name = file_path.split(".")[-1]
-        if file_name != module:
+    for path in Path("./modules").glob("**/*.py"):
+        path = str(path).replace("/", ".")[:-3]
+        name = path.split(".")[-1]
+        if name != module:
             continue
         try:
-            bot.reload_extension(file_path)
+            bot.reload_extension(path)
         except commands.ExtensionNotLoaded:
             try:
-                bot.load_extension(file_path)
+                bot.load_extension(path)
             except Exception:
                 with open("./errorlogs/error.txt", mode="w") as file:
                     file.write(traceback.format_exc())
@@ -76,13 +76,13 @@ async def reload(ctx, module: str):
 @commands.guild_only()
 async def load(ctx, module: str):
     await ctx.channel.trigger_typing()
-    for file_path in Path("./modules").glob("**/*.py"):
-        file_path = str(file_path).replace("/", ".")[:-3]
-        file_name = file_path.split(".")[-1]
-        if file_name != module:
+    for path in Path("./modules").glob("**/*.py"):
+        path = str(path).replace("/", ".")[:-3]
+        name = path.split(".")[-1]
+        if name != module:
             continue
         try:
-            bot.load_extension(file_path)
+            bot.load_extension(path)
         except commands.ExtensionAlreadyLoaded:
             return await ctx.reply(embed=embed.error(ctx.guild.id, f"The module {module} is already loaded"),
                                    mention_author=False)
@@ -103,13 +103,13 @@ async def load(ctx, module: str):
 @commands.guild_only()
 async def unload(ctx, module: str):
     await ctx.channel.trigger_typing()
-    for file_path in Path("./modules").glob("**/*.py"):
-        file_path = str(file_path).replace("/", ".")[:-3]
-        file_name = file_path.split(".")[-1]
-        if file_name != module:
+    for path in Path("./modules").glob("**/*.py"):
+        path = str(path).replace("/", ".")[:-3]
+        name = path.split(".")[-1]
+        if name != module:
             continue
         try:
-            bot.unload_extension(file_path)
+            bot.unload_extension(path)
         except commands.ExtensionNotLoaded:
             return await ctx.reply(embed=embed.error(ctx.guild.id, f"The module {module} is already unloaded"),
                                    mention_author=False)

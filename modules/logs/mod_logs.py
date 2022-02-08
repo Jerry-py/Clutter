@@ -27,10 +27,10 @@ class ModLogs(commands.Cog):
             event.action, f"Something broke while trying to get the action ”{event.action}” from the list"))
         _embed.add_field(
             title="Moderator",
-            description=f"**Mention:** {event.moderator.mention}\n**Tag:** {escape_markdown(event.moderator)}\n**ID:** {event.moderator.id}")
+            description=f"**Mention:** {event.moderator.mention}\n**Tag:** {escape_markdown(str(event.moderator))}\n**ID:** {event.moderator.id}")
         _embed.add_field(
             title="Member",
-            description=f"**Mention:** {event.member.mention}\n**Tag:** {escape_markdown(event.member)}\n**ID:** {event.member.id}")
+            description=f"**Mention:** {event.member.mention}\n**Tag:** {escape_markdown(str(event.member))}\n**ID:** {event.member.id}")
         if event.ends_at != 0:
             ends_at = f"**Ends at:** <t:{event.ends_at}:F>"
         else:
