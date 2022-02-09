@@ -17,14 +17,15 @@ class ModLogs(commands.Cog):
             "moderate": "User's nickname moderated"
         }
 
-    @commands.Cog.listener
+    @commands.Cog.listener()
     async def on_modlog(self, event: ModEvent):
         channel = await self.bot.fetch_channel(db.get(f"{event.guild_id}.channels.mod_log"), 0)
         if channel == 0:
             return
 
-        _embed = embed.warning(event.guild_id, self.actions.get(
-            event.action, f"Something broke while trying to get the action ”{event.action}” from the list"))
+        _embed = embed.warning(self.actions.get(
+            event.action, f"Something broke while trying to get the action ”{event.action}” from the list"),
+            id=event.guild_id)
         _embed.add_field(
             title="Moderator",
             description=f"**Mention:** {event.moderator.mention}\n**Tag:** {escape_markdown(str(event.moderator))}\n**ID:** {event.moderator.id}")

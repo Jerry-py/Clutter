@@ -6,7 +6,7 @@ from discord import Webhook, RequestsWebhookAdapter
 from discord.ext import commands
 
 import config
-from utils import embed, color
+from utils import embed, color, get_txt
 
 
 class ErrorHandler(commands.Cog):
@@ -28,26 +28,24 @@ class ErrorHandler(commands.Cog):
             return
         elif isinstance(error, commands.NoPrivateMessage):
             try:
-                await ctx.reply(embed=embed.error(ctx.guild.id, f'You cannot use this command in DMs'),
+                await ctx.reply(embed=embed.error(f'You cannot use this command in DMs', id=ctx.guild.id),
                                 mention_author=False)
             except (discord.HTTPException, discord.Forbidden):
                 pass
         elif isinstance(error, commands.MissingRequiredArgument):
-            await ctx.reply(embed=embed.error(ctx.guild.id, "Please give all the required arguments"),
+            await ctx.reply(embed=embed.error("Please give all the required arguments", id=ctx.guild.id),
                             mention_author=False)
         elif isinstance(error, commands.MissingAnyRole):
-            await ctx.reply(embed=embed.error(ctx.guild.id, "You cannot use this command"), mention_author=False)
+            await ctx.reply(embed=embed.error("You cannot use this command", id=ctx.guild.id), mention_author=False)
         else:
             print(color.red("\nIgnoring exception in command {}:".format(ctx.command)), file=sys.stderr)
             _traceback = traceback.format_exception(type(error), error, error.__traceback__)
             _traceback = "".join(_traceback)
             print(color.red(_traceback))
-            with open("./errorlogs/error.txt", mode="w") as file:
-                file.write(f"Error Type: {type(error)}\nError: {error}\n\n{_traceback}")
-            with open("./errorlogs/error.txt", mode="rb") as file:
-                webhook = Webhook.from_url(config.error_webhook, adapter=RequestsWebhookAdapter())
-                webhook.send(file=discord.File(file))
-            await ctx.reply(embed=embed.error(ctx.guild.id, "An unexpected error occured"), mention_author=False)
+            webhook = Webhook.from_url(config.error_webhook, adapter=RequestsWebhookAdapter())
+            webhook.send(
+                file=discord.File(get_txt("error", f"Error Type: {type(error)}\nError: {error}\n\n{_traceback}")))
+            await ctx.reply(embed=embed.error("An unexpected error occured", id=ctx.guild.id), mention_author=False)
 
 
 def setup(bot):

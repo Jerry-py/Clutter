@@ -5,7 +5,7 @@ import discord
 from discord.ext import commands
 
 import config
-from utils import color, embed
+from utils import color, embed, get_txt
 
 intents = discord.Intents.default()
 intents.members = True
@@ -54,21 +54,18 @@ async def reload(ctx, module: str):
             try:
                 bot.load_extension(path)
             except Exception:
-                with open("./errorlogs/error.txt", mode="w") as file:
-                    file.write(traceback.format_exc())
-                with open("./errorlogs/error.txt", mode="rb") as file:
-                    return await ctx.reply(embed=embed.error(ctx.guild.id, f"Couldn't reload {module}"),
-                                           file=discord.File(file), mention_author=False)
+                return await ctx.reply(
+                    embed=embed.error(f"Couldn't reload **{module}**", id=ctx.guild.id),
+                    file=discord.File(get_txt("error", traceback.format_exc())), mention_author=False)
         except Exception:
-            with open("./errorlogs/error.txt", mode="w") as file:
-                file.write(traceback.format_exc())
-            with open("./errorlogs/error.txt", mode="rb") as file:
-                return await ctx.reply(embed=embed.error(ctx.guild.id, f"Couldn't reload {module}"),
-                                       file=discord.File(file), mention_author=False)
+            return await ctx.reply(embed=embed.error(f"Couldn't reload **{module}**", id=ctx.guild.id),
+                                   file=discord.File(get_txt("error", traceback.format_exc())), mention_author=False)
         else:
-            return await ctx.reply(embed=embed.success(ctx.guild.id, f"Successfully reloaded {module}"),
-                                   mention_author=False)
-    await ctx.reply(embed=embed.error(ctx.guild.id, f"There is no such module named {module}"), mention_author=False)
+            return await ctx.reply(
+                embed=embed.success(f"Successfully reloaded **{module}**", id=ctx.guild.id),
+                mention_author=False)
+    await ctx.reply(embed=embed.error(f"There is no such module named **{module}**", id=ctx.guild.id),
+                    mention_author=False)
 
 
 @bot.command(aliases=["l"])
@@ -84,18 +81,18 @@ async def load(ctx, module: str):
         try:
             bot.load_extension(path)
         except commands.ExtensionAlreadyLoaded:
-            return await ctx.reply(embed=embed.error(ctx.guild.id, f"The module {module} is already loaded"),
-                                   mention_author=False)
+            return await ctx.reply(
+                embed=embed.error(f"The module **{module}** is already loaded", id=ctx.guild.id),
+                mention_author=False)
         except Exception:
-            with open("./errorlogs/error.txt", mode="w") as file:
-                file.write(traceback.format_exc())
-            with open("./errorlogs/error.txt", mode="rb") as file:
-                return await ctx.reply(embed=embed.error(ctx.guild.id, f"Couldn't load {module}"),
-                                       file=discord.File(file), mention_author=False)
+            return await ctx.reply(embed=embed.error(f"Couldn't load **{module}**", id=ctx.guild.id),
+                                   file=discord.File(get_txt("error", traceback.format_exc())), mention_author=False)
         else:
-            return await ctx.reply(embed=embed.success(ctx.guild.id, f"Successfully loaded {module}"),
-                                   mention_author=False)
-    await ctx.reply(embed=embed.error(ctx.guild.id, f"There is no such module named {module}"), mention_author=False)
+            return await ctx.reply(
+                embed=embed.success(f"Successfully loaded **{module}**", id=ctx.guild.id),
+                mention_author=False)
+    await ctx.reply(embed=embed.error(f"There is no such module named **{module}**", id=ctx.guild.id),
+                    mention_author=False)
 
 
 @bot.command(aliases=["ul"])
@@ -111,18 +108,18 @@ async def unload(ctx, module: str):
         try:
             bot.unload_extension(path)
         except commands.ExtensionNotLoaded:
-            return await ctx.reply(embed=embed.error(ctx.guild.id, f"The module {module} is already unloaded"),
-                                   mention_author=False)
+            return await ctx.reply(
+                embed=embed.error(f"The module **{module}** is already unloaded", id=ctx.guild.id),
+                mention_author=False)
         except Exception:
-            with open("./errorlogs/error.txt", mode="w") as file:
-                file.write(traceback.format_exc())
-            with open("./errorlogs/error.txt", mode="rb") as file:
-                return await ctx.reply(embed=embed.error(ctx.guild.id, f"Couldn't unload {module}"),
-                                       file=discord.File(file), mention_author=False)
+            return await ctx.reply(embed=embed.error(f"Couldn't unload **{module}**", id=ctx.guild.id),
+                                   file=discord.File(get_txt("error", traceback.format_exc())), mention_author=False)
         else:
-            return await ctx.reply(embed=embed.success(ctx.guild.id, f"Successfully unloaded {module}"),
-                                   mention_author=False)
-    await ctx.reply(embed=embed.error(ctx.guild.id, f"There is no such module named {module}"), mention_author=False)
+            return await ctx.reply(
+                embed=embed.success(f"Successfully unloaded **{module}**", id=ctx.guild.id),
+                mention_author=False)
+    await ctx.reply(embed=embed.error(f"There is no such module named **{module}**", id=ctx.guild.id),
+                    mention_author=False)
 
 
 bot.run(config.bot_token)

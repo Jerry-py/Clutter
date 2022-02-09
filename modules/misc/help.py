@@ -18,13 +18,13 @@ class Help(commands.Cog):
         await ctx.channel.trigger_typing()
         _help = self.help_dict.get(command, None)
         if command is None:
-            text = ["Showing help for the command 'help'",
-                    self.help_dict["help"]["desc"]]
+            text = ("Showing help for the command 'help'",
+                    self.help_dict["help"]["desc"])
         elif _help is None:
-            text = ["No such command"]
+            text = ("No such command",)
         else:
-            text = [f"Showing help for the command '{command}'", _help["desc"]]
-        await ctx.reply(embed=embed.error(ctx.channel.id, *text), mention_author=False)
+            text = (f"Showing help for the command '{command}'", _help["desc"])
+        await ctx.reply(embed=embed.error(*text, id=ctx.channel.id), mention_author=False)
 
 
 def setup(bot):

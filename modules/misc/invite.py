@@ -13,9 +13,9 @@ class Invite(commands.Cog):
     @commands.guild_only()
     async def invite(self, ctx):
         await ctx.channel.trigger_typing()
-        await ctx.reply(embed=embed.info(ctx.guild.id, "Invite me",
+        await ctx.reply(embed=embed.info("Invite me",
                                          f"**Bot invite:** {config.bot_invite}\n**Support server:** {config.support_server}"),
-                        mention_author=False)
+                        mention_author=False, id=ctx.guild.id)
 
 
 def setup(bot):
