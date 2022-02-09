@@ -22,6 +22,7 @@ class Utils:
 
     @staticmethod
     def find(get_from: dict, path: list, *, default: Any = None) -> Any:
+        print(get_from)
         key = path.pop(-1)
         for _ in path:
             try:
@@ -104,7 +105,8 @@ class MongoManager:
         else:
             result = collection.find_one({"_id": _id},
                                          {"_id": 0, ".".join(path): 1})  # set( "collectionName.cardID.DIpath" )
-            if result is not None or result != {}:
-                return self.utils.find(result, path)
+            if result is not None:
+                print(result)
+                return self.utils.find(result, path, default=default)
             else:
                 return default

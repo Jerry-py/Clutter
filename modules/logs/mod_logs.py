@@ -20,6 +20,7 @@ class ModLogs(commands.Cog):
     @commands.Cog.listener()
     async def on_modlog(self, event: ModEvent):
         channel = await self.bot.fetch_channel(db.get(f"{event.guild_id}.channels.mod_log"), 0)
+        await channel.trigger_typing()
         if channel == 0:
             return
 
