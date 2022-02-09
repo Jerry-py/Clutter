@@ -1,13 +1,1 @@
-Error Type: <class 'discord.errors.Forbidden'>
-Error: 403 Forbidden (error code: 50001): Missing Access
-
-Traceback (most recent call last):
-  File "/home/asus/PyProjects/Clutter/venv/lib/python3.10/site-packages/discord/ext/commands/core.py", line 85, in wrapped
-    ret = await coro(*args, **kwargs)
-  File "/home/asus/PyProjects/Clutter/modules/misc/help.py", line 18, in help
-    await ctx.channel.trigger_typing()
-  File "/home/asus/PyProjects/Clutter/venv/lib/python3.10/site-packages/discord/abc.py", line 1083, in trigger_typing
-    await self._state.http.send_typing(channel.id)
-  File "/home/asus/PyProjects/Clutter/venv/lib/python3.10/site-packages/discord/http.py", line 248, in request
-    raise Forbidden(r, data)
-discord.errors.Forbidden: 403 Forbidden (error code: 50001): Missing Access
+error
