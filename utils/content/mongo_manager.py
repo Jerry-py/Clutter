@@ -106,7 +106,6 @@ class MongoManager:
             result = collection.find_one({"_id": _id},
                                          {"_id": 0, ".".join(path): 1})  # set( "collectionName.cardID.DIpath" )
             if result is not None:
-                print(result)
                 return self.utils.find(result, path, default=default)
             else:
                 return default
