@@ -20,8 +20,7 @@ class ErrorHandler(commands.Cog):
     async def on_command_error(self, ctx, error):
         if hasattr(ctx.command, 'on_error'):
             return
-        cog = ctx.cog
-        if cog:
+        if cog := ctx.cog:
             if cog._get_overridden_method(cog.cog_command_error) is not None:
                 return
         ignored = (commands.CommandNotFound, commands.DisabledCommand)
