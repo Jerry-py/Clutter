@@ -54,13 +54,11 @@ class MongoManager:
                 return collection.insert_one({"_id": _id, "_": value})
             else:
                 return collection.update_one({"_id": _id}, {"$set": {"_": value}})
-        else:  # set( "collectionName.cardID.DIpath" )
-            result = collection.find_one({"_id": _id}, {"_id": 1})
-            if result is None:
-                return collection.insert_one(
-                    {"_id": _id, **self.utils.assemble(path, value)})  # is there a better way for this?
-            else:
-                return collection.update_one({"_id": _id}, {"$set": {".".join(path): value}})
+        result = collection.find_one({"_id": _id}, {"_id": 1})  # set( "collectionName.cardID.DIpath" )
+        if result is None:
+            return collection.insert_one(
+                {"_id": _id, **self.utils.assemble(path, value)})  # is there a better way for this?
+        return collection.update_one({"_id": _id}, {"$set": {".".join(path): value}})
 
     def rem(self, path: str) -> None:
         path = [_ for _ in path.split(".") if _ != ""]
@@ -73,8 +71,8 @@ class MongoManager:
         elif len(path) == 1:
             key = path.pop(0)  # rem( "collectionName.cardID.varName" )
             return collection.update_one({"_id": _id}, {"$unset": {key: ""}})
-        else:  # rem( "collectionName.cardID.DIpath" )
-            return collection.update_one({"_id": _id}, {"$unset": {".".join(path)}})
+        return collection.update_one({"_id": _id},
+                                     {"$unset": {".".join(path)}})  # rem( "collectionName.cardID.DIpath" )
 
     def get(self, path: str, default: Any = None) -> Any:
         path = [_ for _ in path.split(".") if _ != ""]
@@ -92,10 +90,8 @@ class MongoManager:
                 return result.get("_", default)
             else:
                 return default
-        else:
-            result = collection.find_one({"_id": _id},
-                                         {"_id": 0, ".".join(path): 1})  # set( "collectionName.cardID.DIpath" )
-            if result is not None:
-                return self.utils.find(result, path, default=default)
-            else:
-                return default
+        result = collection.find_one({"_id": _id},
+                                     {"_id": 0, ".".join(path): 1})  # set( "collectionName.cardID.DIpath" )
+        if result is not None:
+            return self.utils.find(result, path, default=default)
+        return default
