@@ -18,9 +18,11 @@ class Help(commands.Cog):
         await ctx.channel.trigger_typing()
         _help = self.help_dict.get(command.lower(), None)
         if command is None:
-            text = ""
-            for name, info in self.help_dict.items():
-                text += f"`{name}`- {info['brief']}\n"
+            text = "".join(
+                f"`{name}`- {info['brief']}\n"
+                for name, info in self.help_dict.items()
+            )
+
             text += f"\nFor more info on a command, use `{self.bot.command_prefix}help <command>`"
             await ctx.reply(embed=embed.info("Help", text, guild_id=ctx.guild.id), mention_author=False)
         elif _help is None:
