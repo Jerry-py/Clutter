@@ -28,16 +28,10 @@ class ErrorHandler(commands.Cog):
         error = getattr(error, 'original', error)
         if isinstance(error, ignored):
             return
-        elif isinstance(error, commands.NoPrivateMessage):
-            try:
-                await ctx.reply(embed=embed.error(f'You cannot use this command in DMs', id=ctx.guild.id),
-                                mention_author=False)
-            except (discord.HTTPException, discord.Forbidden):
-                pass
         elif isinstance(error, commands.MissingRequiredArgument):
             await ctx.reply(embed=embed.error("Please give all the required arguments", id=ctx.guild.id),
                             mention_author=False)
-        elif isinstance(error, commands.MissingAnyRole):
+        elif isinstance(error, commands.CheckFailure) or isinstance(error, commands.CheckAnyFailure):
             await ctx.reply(embed=embed.error("You cannot use this command", id=ctx.guild.id), mention_author=False)
         else:
             print(color.red("\nIgnoring exception in command {}:".format(ctx.command)), file=sys.stderr)
