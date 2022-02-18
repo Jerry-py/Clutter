@@ -27,7 +27,7 @@ BG_END = esc(49)
 HL_END = esc(22, 27, 39)
 
 
-class AnsiColor:
+class Color:
     black = make_color(esc(30), FG_END)
     red = make_color(esc(31), FG_END)
     green = make_color(esc(32), FG_END)

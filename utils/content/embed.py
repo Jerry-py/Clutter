@@ -2,11 +2,11 @@ from typing import Tuple
 
 import discord
 
-from .mongo_manager import MongoManager
+from .mongodb import MongoManager
 from ...config import defaults
 
 
-class EmbedAssembler:
+class Embed:
 
     def __init__(self, database: MongoManager):
         self.db = database
