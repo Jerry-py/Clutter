@@ -22,12 +22,13 @@ class Help(commands.Cog):
             for name, info in self.help_dict.items():
                 text += f"`{name}`- {info['brief']}\n"
             text += f"\nFor more info on a command, use `{self.bot.command_prefix}help <command>`"
-            text = [text]
+            await ctx.reply(embed=embed.info("Help", text, id=ctx.guild.id), mention_author=False)
         elif _help is None:
-            text = ["No such command"]
+            await ctx.reply(embed=embed.error("No such command", id=ctx.guild.id), mention_author=False)
         else:
-            text = [f"Showing help for the command '{command}'", _help["desc"]]
-        await ctx.reply(embed=embed.error(*text, id=ctx.channel.id), mention_author=False)
+            await ctx.reply(
+                embed=embed.info(f"Showing help for the command '{command}'", _help["desc"], id=ctx.guild.id),
+                mention_author=False)
 
 
 def setup(bot):
