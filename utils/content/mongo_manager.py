@@ -22,7 +22,6 @@ class Utils:
 
     @staticmethod
     def find(get_from: dict, path: list, *, default: Any = None) -> Any:
-        print(get_from)
         key = path.pop(-1)
         for _ in path:
             try:
@@ -41,7 +40,6 @@ class MongoManager:
 
     def set(self, path: str, value: Any) -> None:
         path = [_ for _ in path.split(".") if _ != ""]
-
         collection = self.db[path.pop(0)]
         if not path:  # set( "collectionName" )
             result = collection.find_one({"_id": "_"}, {"_id": 1})
@@ -49,7 +47,6 @@ class MongoManager:
                 return collection.insert_one({"_id": "_", "_": value})
             else:
                 return collection.update_one({"_id": "_"}, {"$set": {"_": value}})
-
         _id = path.pop(0)
         if not path:  # set( "collectionName.cardID" )
             result = collection.find_one({"_id": _id}, {"_id": 1})
@@ -57,7 +54,6 @@ class MongoManager:
                 return collection.insert_one({"_id": _id, "_": value})
             else:
                 return collection.update_one({"_id": _id}, {"$set": {"_": value}})
-
         else:  # set( "collectionName.cardID.DIpath" )
             result = collection.find_one({"_id": _id}, {"_id": 1})
             if result is None:
@@ -68,15 +64,12 @@ class MongoManager:
 
     def rem(self, path: str) -> None:
         path = [_ for _ in path.split(".") if _ != ""]
-
         collection = self.db[path.pop(0)]
         if not path:  # rem( "collectionName" )
             return collection.drop()
-
         _id = path.pop(0)
         if not path:  # rem( "collectionName.cardID" )
             return collection.delete_one({"_id": _id})
-
         elif len(path) == 1:
             key = path.pop(0)  # rem( "collectionName.cardID.varName" )
             return collection.update_one({"_id": _id}, {"$unset": {key: ""}})
@@ -85,7 +78,6 @@ class MongoManager:
 
     def get(self, path: str, default: Any = None) -> Any:
         path = [_ for _ in path.split(".") if _ != ""]
-
         collection = self.db[path.pop(0)]  # set( "collectionName" )
         if not path:
             result = collection.find_one({"_id": "_"}, {"_id": 0, "_": 1})
@@ -93,7 +85,6 @@ class MongoManager:
                 return result.get("_", default)
             else:
                 return default
-
         _id = path.pop(0)  # set( "collectionName.cardID" )
         if not path:
             result = collection.find_one({"_id": _id}, {"_id": 0, "_": 1})
@@ -101,7 +92,6 @@ class MongoManager:
                 return result.get("_", default)
             else:
                 return default
-
         else:
             result = collection.find_one({"_id": _id},
                                          {"_id": 0, ".".join(path): 1})  # set( "collectionName.cardID.DIpath" )
