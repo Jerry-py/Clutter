@@ -45,15 +45,13 @@ class MongoManager:
             result = collection.find_one({"_id": "_"}, {"_id": 1})
             if result is None:
                 return collection.insert_one({"_id": "_", "_": value})
-            else:
-                return collection.update_one({"_id": "_"}, {"$set": {"_": value}})
+            return collection.update_one({"_id": "_"}, {"$set": {"_": value}})
         _id = path.pop(0)
         if not path:  # set( "collectionName.cardID" )
             result = collection.find_one({"_id": _id}, {"_id": 1})
             if result is None:
                 return collection.insert_one({"_id": _id, "_": value})
-            else:
-                return collection.update_one({"_id": _id}, {"$set": {"_": value}})
+            return collection.update_one({"_id": _id}, {"$set": {"_": value}})
         result = collection.find_one({"_id": _id}, {"_id": 1})  # set( "collectionName.cardID.DIpath" )
         if result is None:
             return collection.insert_one(
@@ -81,15 +79,13 @@ class MongoManager:
             result = collection.find_one({"_id": "_"}, {"_id": 0, "_": 1})
             if result is not None:
                 return result.get("_", default)
-            else:
-                return default
+            return default
         _id = path.pop(0)  # set( "collectionName.cardID" )
         if not path:
             result = collection.find_one({"_id": _id}, {"_id": 0, "_": 1})
             if result is not None:
                 return result.get("_", default)
-            else:
-                return default
+            return default
         result = collection.find_one({"_id": _id},
                                      {"_id": 0, ".".join(path): 1})  # set( "collectionName.cardID.DIpath" )
         if result is not None:
