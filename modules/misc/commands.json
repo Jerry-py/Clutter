@@ -25,6 +25,6 @@
   },
   "info": {
     "brief": "Get the bot's info",
-    "desc": "Get the bot's info\n\nI mean what could i possibly write here?"
+    "desc": "Get the bot's info\n\n\\n\\n[View the bot's source code](https://github.com/Clutter-Development/Clutter)\n\nI mean what could i possibly write here?"
   }
 }
