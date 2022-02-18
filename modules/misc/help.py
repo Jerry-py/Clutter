@@ -18,8 +18,11 @@ class Help(commands.Cog):
         await ctx.channel.trigger_typing()
         _help = self.help_dict.get(command, None)
         if command is None:
-            text = ["Showing help for the command 'help'",
-                    self.help_dict["help"]["desc"]]
+            text = ""
+            for name, info in self.help_dict.items():
+                text += f"`{name}`- {info['brief']}\n"
+            text += f"\nFor more info on a command, use `{self.bot.command_prefix}help <command>`"
+            text = [text]
         elif _help is None:
             text = ["No such command"]
         else:
