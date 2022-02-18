@@ -2,7 +2,7 @@ import json
 
 from discord.ext import commands
 
-from utils import embed
+from utils import embed, checks
 
 
 class Help(commands.Cog):
@@ -13,10 +13,10 @@ class Help(commands.Cog):
             self.help_dict = json.load(file)
 
     @commands.command()
-    @commands.guild_only()
+    @commands.check(checks.send_messages)
     async def help(self, ctx, *, command=None):
         await ctx.channel.trigger_typing()
-        _help = self.help_dict.get(command, None)
+        _help = self.help_dict.get(command.lower(), None)
         if command is None:
             text = ""
             for name, info in self.help_dict.items():

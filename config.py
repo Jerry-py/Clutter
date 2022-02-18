@@ -14,8 +14,10 @@ bot_invite = "SOON"  # bot invite
 
 support_server = "SOON"  # bot support server invite
 
+bot_version = "0.1b"  # bot version
 
-class Defaults:
+
+class defaults:
     emojis = {
         "success": "<:success:889206855321157683>",
         "error": "<:error:911240678342819870>",

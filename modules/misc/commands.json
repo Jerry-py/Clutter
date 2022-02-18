@@ -1,7 +1,7 @@
 {
   "help": {
     "brief": "Sends info about the commands of the bot",
-    "desc": "`help [command]`\n\nSends info about the commands of the bot\n\n`<param>` - Mandatory\n`[param]` - Optional\n\n[View the bot's source code](https://github.com/Clutter-Development/Clutter)"
+    "desc": "`help [command]`\n\nSends info about the commands of the bot\n\n`<param>` - Mandatory\n`[param]` - Optional"
   },
   "reload": {
     "brief": "Reloads a module",
@@ -22,5 +22,9 @@
   "invite": {
     "brief": "Get the invite link for the bot and the bot's support server",
     "desc": "`invite`\n\nGet the invite link for the bot and the bot's support server"
+  },
+  "info": {
+    "brief": "Get the bot's info",
+    "desc": "Get the bot's info\n\nI mean what could i possibly write here?"
   }
 }

@@ -1,7 +1,7 @@
 from discord.ext import commands
 
 import config
-from utils import embed
+from utils import embed, checks
 
 
 class Invite(commands.Cog):
@@ -10,7 +10,7 @@ class Invite(commands.Cog):
         self.bot = bot
 
     @commands.command()
-    @commands.guild_only()
+    @commands.check(checks.send_messages)
     async def invite(self, ctx):
         await ctx.channel.trigger_typing()
         await ctx.reply(embed=embed.info("Invite me",

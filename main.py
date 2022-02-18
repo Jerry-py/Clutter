@@ -5,7 +5,7 @@ import discord
 from discord.ext import commands
 
 import config
-from utils import color, embed, get_txt
+from utils import color, embed, get_txt, checks
 
 intents = discord.Intents.default()
 intents.members = True
@@ -39,8 +39,7 @@ async def on_ready():
 
 
 @bot.command(aliases=["rl"])
-@commands.is_owner()
-@commands.guild_only()
+@commands.check(commands.is_owner, checks.send_messages, checks.attach_files)
 async def reload(ctx, module: str):
     await ctx.channel.trigger_typing()
     for path in Path("./modules").glob("**/*.py"):
@@ -69,8 +68,7 @@ async def reload(ctx, module: str):
 
 
 @bot.command(aliases=["l"])
-@commands.is_owner()
-@commands.guild_only()
+@commands.check(commands.is_owner, checks.send_messages, checks.attach_files)
 async def load(ctx, module: str):
     await ctx.channel.trigger_typing()
     for path in Path("./modules").glob("**/*.py"):
@@ -96,8 +94,7 @@ async def load(ctx, module: str):
 
 
 @bot.command(aliases=["ul"])
-@commands.is_owner()
-@commands.guild_only()
+@commands.check(commands.is_owner, checks.send_messages, checks.attach_files)
 async def unload(ctx, module: str):
     await ctx.channel.trigger_typing()
     for path in Path("./modules").glob("**/*.py"):

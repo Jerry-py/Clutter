@@ -2,7 +2,7 @@ import time
 
 from discord.ext import commands
 
-from utils import embed
+from utils import embed, checks
 
 
 class Ping(commands.Cog):
@@ -11,7 +11,7 @@ class Ping(commands.Cog):
         self.bot = bot
 
     @commands.command(aliases=["p", "latency"])
-    @commands.guild_only()
+    @commands.check(checks.send_messages)
     async def ping(self, ctx):
         await ctx.channel.trigger_typing()
         before = time.monotonic()
