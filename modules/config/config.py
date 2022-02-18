@@ -14,7 +14,7 @@ class Ping(commands.Cog):
     @config.command()
     @commands.guild_only()
     async def channels(self, ctx, role: discord.Member):
-        pass  # TODO
+        pass
 
 
 def setup(bot):
