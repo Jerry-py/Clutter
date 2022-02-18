@@ -29,10 +29,11 @@ class ErrorHandler(commands.Cog):
         if isinstance(error, ignored):
             return
         elif isinstance(error, commands.MissingRequiredArgument):
-            await ctx.reply(embed=embed.error("Please give all the required arguments", id=ctx.guild.id),
+            await ctx.reply(embed=embed.error("Please give all the required arguments", guild_id=ctx.guild.id),
                             mention_author=False)
         elif isinstance(error, commands.CheckFailure) or isinstance(error, commands.CheckAnyFailure):
-            await ctx.reply(embed=embed.error("You cannot use this command", id=ctx.guild.id), mention_author=False)
+            await ctx.reply(embed=embed.error("You cannot use this command", guild_id=ctx.guild.id),
+                            mention_author=False)
         else:
             print(color.red("\nIgnoring exception in command {}:".format(ctx.command)), file=sys.stderr)
             _traceback = traceback.format_exception(type(error), error, error.__traceback__)
@@ -41,7 +42,8 @@ class ErrorHandler(commands.Cog):
             webhook = Webhook.from_url(config.error_webhook, adapter=RequestsWebhookAdapter())
             webhook.send(
                 file=discord.File(get_txt("error", f"Error Type: {type(error)}\nError: {error}\n\n{_traceback}")))
-            await ctx.reply(embed=embed.error("An unexpected error occured", id=ctx.guild.id), mention_author=False)
+            await ctx.reply(embed=embed.error("An unexpected error occured", guild_id=ctx.guild.id),
+                            mention_author=False)
 
 
 def setup(bot):

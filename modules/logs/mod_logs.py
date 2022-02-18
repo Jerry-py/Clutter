@@ -26,7 +26,7 @@ class ModLogs(commands.Cog):
         auto_text = "Automod action: " if event.automod else ""
         _embed = embed.warning(auto_text + self.actions.get(
             event.action, f"Something broke while trying to get the action ”{event.action}” from the list"),
-                               id=event.guild_id)
+                               guild_id=event.guild_id)
         if not event.automod:
             _embed.add_field(
                 title="Moderator",

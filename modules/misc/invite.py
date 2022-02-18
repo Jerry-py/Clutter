@@ -15,7 +15,7 @@ class Invite(commands.Cog):
         await ctx.channel.trigger_typing()
         await ctx.reply(embed=embed.info("Invite me",
                                          f"**Bot invite:** {config.bot_invite}\n**Support server:** {config.support_server}"),
-                        mention_author=False, id=ctx.guild.id)
+                        mention_author=False, guild_id=ctx.guild.id)
 
 
 def setup(bot):

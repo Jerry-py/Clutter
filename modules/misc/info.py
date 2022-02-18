@@ -17,7 +17,7 @@ class Info(commands.Cog):
         await ctx.channel.trigger_typing()
         await ctx.reply(embed=embed.info("Bot info",
                                          f"Bot Version {config.bot_version}\nRunning on Python {platform.python_version()}\nMade by RGBCube#4777",
-                                         id=ctx.guild.id), mention_author=False)
+                                         guild_id=ctx.guild.id), mention_author=False)
 
 
 def setup(bot):
