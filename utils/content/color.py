@@ -7,17 +7,12 @@ def esc(*codes: Union[int, str]) -> str:
 
 
 def t_(b: Union[bytes, Any]) -> str:
-    if isinstance(b, bytes):
-        return b.decode()
-    return b
+    return b.decode() if isinstance(b, bytes) else b
 
 
 def make_color(start, end: str) -> Callable[[str], str]:
     def color_func(s: str) -> str:
-        if not sys.stdout.isatty():
-            return s
-
-        return start + t_(s) + end
+        return s if not sys.stdout.isatty() else start + t_(s) + end
 
     return color_func
 
