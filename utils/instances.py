@@ -1,6 +1,7 @@
 from config import mongo_url
-from .content import color, embed, mongodb, checks
+
 from ..main import bot
+from .content import checks, color, embed, mongodb
 
 color = color.Color
 db = mongodb.MongoManager(mongo_url, "Clutter")

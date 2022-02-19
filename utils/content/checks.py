@@ -6,7 +6,8 @@ class Checks:
     def is_moderator(self, ctx):
         if ctx.guild:
             return ctx.author.id in self.db.get(f"{ctx.guild.id}.moderators.roles") or ctx.author.id in self.db.get(
-                f"{ctx.guild.id}.moderators.users")
+                f"{ctx.guild.id}.moderators.users"
+            )
         return False
 
     def send_messages(self, ctx):

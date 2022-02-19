@@ -2,11 +2,10 @@ import time
 
 from discord.ext import commands
 
-from utils import embed, checks
+from utils import checks, embed
 
 
 class Ping(commands.Cog):
-
     def __init__(self, bot):
         self.bot = bot
 
@@ -17,9 +16,13 @@ class Ping(commands.Cog):
         before = time.monotonic()
         message = await ctx.reply("** **", mention_author=False)
         ping = (time.monotonic() - before) * 1000
-        await message.edit(embed=embed.info("Ping statistics",
-                                            f"**API latency:** `{int(ping)}ms`\n**Bot latency:** `{round(self.bot.latency * 1000)}ms`",
-                                            guild_id=ctx.guild.id))
+        await message.edit(
+            embed=embed.info(
+                "Ping statistics",
+                f"**API latency:** `{int(ping)}ms`\n**Bot latency:** `{round(self.bot.latency * 1000)}ms`",
+                guild_id=ctx.guild.id,
+            )
+        )
 
 
 def setup(bot):

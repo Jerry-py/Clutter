@@ -1,9 +1,9 @@
 import sys
-from typing import Union, Any, Callable
+from typing import Any, Callable, Union
 
 
 def esc(*codes: Union[int, str]) -> str:
-    return t_('\x1b[{}m').format(t_(';').join(t_(str(c)) for c in codes))
+    return t_("\x1b[{}m").format(t_(";").join(t_(str(c)) for c in codes))
 
 
 def t_(b: Union[bytes, Any]) -> str:

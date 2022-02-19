@@ -2,11 +2,10 @@ import json
 
 from discord.ext import commands
 
-from utils import embed, checks
+from utils import checks, embed
 
 
 class Help(commands.Cog):
-
     def __init__(self, bot):
         self.bot = bot
         with open("./modules/misc/commands.json", mode="r") as file:
@@ -18,10 +17,7 @@ class Help(commands.Cog):
         await ctx.channel.trigger_typing()
         _help = self.help_dict.get(command.lower(), None)
         if command is None:
-            text = "".join(
-                f"`{name}`- {info['brief']}\n"
-                for name, info in self.help_dict.items()
-            )
+            text = "".join(f"`{name}`- {info['brief']}\n" for name, info in self.help_dict.items())
 
             text += f"\nFor more info on a command, use `{self.bot.command_prefix}help <command>`"
             await ctx.reply(embed=embed.info("Help", text, guild_id=ctx.guild.id), mention_author=False)
@@ -30,7 +26,8 @@ class Help(commands.Cog):
         else:
             await ctx.reply(
                 embed=embed.info(f"Showing help for the command '{command}'", _help["desc"], guild_id=ctx.guild.id),
-                mention_author=False)
+                mention_author=False,
+            )
 
 
 def setup(bot):
