@@ -6,3 +6,5 @@
 
 
 Clutter is a multi-purpose, extremely configurable Discord bot. 
+
+I will be rewriting alot of this bot in pycord, and adding caching for the database and more stuff in the next week
