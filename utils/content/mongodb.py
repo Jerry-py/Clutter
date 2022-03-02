@@ -4,7 +4,6 @@ from pymongo import MongoClient
 
 
 class Utils:
-
     @staticmethod
     def assemble(path: list, value: Any) -> dict:
         to_asm, i = {}, 0
@@ -32,7 +31,6 @@ class Utils:
 
 
 class MongoManager:
-
     def __init__(self, connect_url: str, database: str):
         self.client = MongoClient(connect_url)
         self.db = self.client[database]
@@ -55,7 +53,8 @@ class MongoManager:
         result = collection.find_one({"_id": _id}, {"_id": 1})  # set( "collectionName.cardID.DIpath" )
         if result is None:
             return collection.insert_one(
-                {"_id": _id, **self.utils.assemble(path, value)})  # is there a better way for this?
+                {"_id": _id, **self.utils.assemble(path, value)}
+            )  # is there a better way for this?
         return collection.update_one({"_id": _id}, {"$set": {".".join(path): value}})
 
     def rem(self, path: str) -> None:
@@ -69,8 +68,9 @@ class MongoManager:
         if len(path) == 1:
             key = path.pop(0)  # rem( "collectionName.cardID.varName" )
             return collection.update_one({"_id": _id}, {"$unset": {key: ""}})
-        return collection.update_one({"_id": _id},
-                                     {"$unset": {".".join(path)}})  # rem( "collectionName.cardID.DIpath" )
+        return collection.update_one(
+            {"_id": _id}, {"$unset": {".".join(path)}}
+        )  # rem( "collectionName.cardID.DIpath" )
 
     def get(self, path: str, default: Any = None) -> Any:
         path = [_ for _ in path.split(".") if _ != ""]
@@ -86,8 +86,9 @@ class MongoManager:
             if result is not None:
                 return result.get("_", default)
             return default
-        result = collection.find_one({"_id": _id},
-                                     {"_id": 0, ".".join(path): 1})  # set( "collectionName.cardID.DIpath" )
+        result = collection.find_one(
+            {"_id": _id}, {"_id": 0, ".".join(path): 1}
+        )  # set( "collectionName.cardID.DIpath" )
         if result is not None:
             return self.utils.find(result, path, default=default)
         return default

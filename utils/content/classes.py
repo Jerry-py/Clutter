@@ -11,9 +11,17 @@ import discord
 
 
 class ModEvent:
-
-    def __init__(self, *, moderator: discord.Member, member: discord.Member, action: str, guild_id: int,
-                 reason: str = "", ends_at: int = 0, automod: bool = False):
+    def __init__(
+        self,
+        *,
+        moderator: discord.Member,
+        member: discord.Member,
+        action: str,
+        guild_id: int,
+        reason: str = "",
+        ends_at: int = 0,
+        automod: bool = False
+    ):
         self.moderator = moderator
         self.member = member
         self.action = action
